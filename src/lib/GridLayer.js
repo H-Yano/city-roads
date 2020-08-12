@@ -13,7 +13,7 @@ export default class GridLayer {
     let color = tinycolor(unsafeColor);
     this._color = color;
     if (this.lines) {
-      this.lines.color = toRatioColor(color.toRgb());
+	this.lines.color = toRatioColor(color.toRgb());
     }
     if (this.scene) {
       this.scene.renderFrame();
@@ -100,14 +100,12 @@ export default class GridLayer {
     let grid = this.grid;
     let lines = new wgl.WireCollection(grid.wayPointCount, {
       width: this._lineWidth,
-      allowColors: false,
+      allowColors: true,
       is3D: false
     });
     grid.forEachWay(function(from, to) {
       lines.add({from, to});
     });
-    let color = tinycolor(this._color).toRgb();
-    lines.color = toRatioColor(color);
     lines.id = this.id;
 
     this.lines = lines;

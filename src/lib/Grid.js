@@ -102,6 +102,21 @@ export default class Grid {
   forEachWay(callback, enter, exit) {
     let positions = this.nodes;
     let project = this.getProjector();
+    let colors = [
+      0xba004dff,
+		  0xde1726ff,
+		  0xef6f00ff,
+		  0xeaaf00ff,
+		  0xc4ba00ff,
+		  0x37a832ff,
+		  0x00906cff,
+		  0x007a86ff,
+		  0x006a8cff,
+		  0x114a9bff,
+		  0x73288dff,
+		  0x920074ff
+		  ];
+
     this.elements.forEach(element => {
       if (element.type !== 'way') return;
 
@@ -116,7 +131,13 @@ export default class Grid {
         node = positions.get(nodeIds[index])
         if (!node) continue;
         let next = project(node);
-
+        let rad = Math.atan2(next.y - last.y, next.x - last.x) * 24 / Math.PI;
+	      if (rad < 0) {
+          rad += 24;
+        }
+        let radInt = parseInt(rad+3) % 12;
+	      last.color = colors[radInt];
+	      next.color = colors[radInt];
         callback(last, next);
 
         last = next;
